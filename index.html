@@ -154,15 +154,22 @@
   .print-date{display:none;}
 
   /* ---------- Quick add chips ---------- */
-  .chip-row{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
   .chip{
     background:var(--steel-100); border:1px solid #C7DEE6; color:var(--steel-600);
-    font-size:12px; padding:7px 12px; border-radius:20px; cursor:pointer;
-    font-weight:700; line-height:1.2;
+    font-size:11.5px; padding:6px 10px; border-radius:20px; cursor:pointer;
+    font-weight:700; line-height:1.2; white-space:nowrap;
     transition:transform .12s var(--ease), background .15s var(--ease), color .15s var(--ease), box-shadow .15s var(--ease);
   }
   .chip:hover{box-shadow:var(--shadow-sm); transform:translateY(-1px);}
-  .chip:active{background:var(--steel-500); color:#fff; transform:translateY(0);}
+  .chip:active{transform:translateY(0) scale(.94);}
+  @keyframes chipPicked{
+    0%{ transform:scale(1); }
+    35%{ transform:scale(.90); }
+    65%{ background:var(--steel-500); color:#fff; box-shadow:0 0 0 6px rgba(59,135,172,.16); transform:scale(1.08); }
+    100%{ transform:scale(1); }
+  }
+  .chip.picked{ animation:chipPicked .38s var(--ease); }
 
   /* ---------- Items table ---------- */
   .items-head, .item-row{
@@ -307,9 +314,12 @@
     .btn{padding:13px 10px;}
     .field-grid{grid-template-columns:1fr;}
     .logo-img{max-width:180px;}
+    .chip-row{gap:5px;}
+    .chip{font-size:10.5px; padding:5px 8px; min-height:29px;}
   }
   /* garante alvo de toque confortável em qualquer tamanho de tela */
-  .btn, .chip, .tab-btn, .add-item-btn{ min-height:40px; }
+  .btn, .tab-btn, .add-item-btn{ min-height:40px; }
+  .chip{ min-height:32px; }
   input, select, textarea, button{ -webkit-tap-highlight-color:transparent; }
 
   /* ---------- Print (regras compartilhadas com a geração de PDF) ---------- */
@@ -587,51 +597,51 @@
   }
 
   var COMMON_ITEMS = [
-    {d:'Recarga de gás R-134a', p:180},
-    {d:'Recarga de gás R-1234yf', p:280},
-    {d:'Higienização do sistema', p:90},
-    {d:'Teste de estanqueidade', p:60},
-    {d:'Teste de estanqueidade com mistura de hidrogênio', p:150},
-    {d:'Serviço de vácuo', p:80},
-    {d:'Troca de filtro secador', p:120},
-    {d:'Troca de compressor', p:950},
-    {d:'Troca de selo do compressor', p:220},
-    {d:'Troca de válvula de expansão', p:180},
-    {d:'Serviço de troca de válvula', p:100},
-    {d:'Troca de óleo PAG 46', p:70},
-    {d:'Troca de óleo PAG 100', p:70},
-    {d:'Troca de evaporadora', p:600},
-    {d:'Montagem/desmontagem do painel', p:250},
-    {d:'Troca de filtro de ar cabine', p:60},
-    {d:'Diagnóstico do sistema', p:70},
-    {d:'Aplicação de contraste UV', p:40},
-    {d:'Serviço de elétrica', p:100},
-    {d:'Serviço de solda', p:120},
-    {d:'Deslocamento', p:0},
-    {d:'Mão de obra', p:0},
+    {d:'Recarga de gás R-134a', s:'Gás R-134a', p:180},
+    {d:'Recarga de gás R-1234yf', s:'Gás R-1234yf', p:280},
+    {d:'Higienização do sistema', s:'Higienização', p:90},
+    {d:'Teste de estanqueidade', s:'Teste estanqueidade', p:60},
+    {d:'Teste de estanqueidade com mistura de hidrogênio', s:'Teste c/ hidrogênio', p:150},
+    {d:'Serviço de vácuo', s:'Vácuo', p:80},
+    {d:'Troca de filtro secador', s:'Filtro secador', p:120},
+    {d:'Troca de compressor', s:'Compressor', p:950},
+    {d:'Troca de selo do compressor', s:'Selo compressor', p:220},
+    {d:'Troca de válvula de expansão', s:'Válvula expansão', p:180},
+    {d:'Serviço de troca de válvula', s:'Troca de válvula', p:100},
+    {d:'Troca de óleo PAG 46', s:'Óleo PAG 46', p:70},
+    {d:'Troca de óleo PAG 100', s:'Óleo PAG 100', p:70},
+    {d:'Troca de evaporadora', s:'Evaporadora', p:600},
+    {d:'Montagem/desmontagem do painel', s:'Painel', p:250},
+    {d:'Troca de filtro de ar cabine', s:'Filtro cabine', p:60},
+    {d:'Diagnóstico do sistema', s:'Diagnóstico', p:70},
+    {d:'Aplicação de contraste UV', s:'Contraste UV', p:40},
+    {d:'Serviço de elétrica', s:'Elétrica', p:100},
+    {d:'Serviço de solda', s:'Solda', p:120},
+    {d:'Deslocamento', s:'Deslocamento', p:0},
+    {d:'Mão de obra', s:'Mão de obra', p:0},
   ];
 
   var COMMON_PARTS = [
-    {d:'Compressor do ar condicionado', p:950},
-    {d:'Selo do compressor', p:220},
-    {d:'Condensador', p:420},
-    {d:'Evaporadora (radiador do ar)', p:600},
-    {d:'Filtro secador / acumulador', p:120},
-    {d:'Válvula de expansão', p:180},
-    {d:'Válvula de serviço', p:60},
-    {d:'Anéis o\u2019ring (jogo)', p:40},
-    {d:'Mangueira de alta pressão', p:150},
-    {d:'Mangueira de baixa pressão', p:150},
-    {d:'Motor do ventilador (hélice)', p:280},
-    {d:'Polia do compressor', p:150},
-    {d:'Embreagem do compressor', p:320},
-    {d:'Correia do compressor', p:60},
-    {d:'Filtro de ar condicionado (cabine)', p:60},
-    {d:'Sensor de pressão do sistema', p:90},
-    {d:'Óleo PAG 46 (unidade)', p:70},
-    {d:'Óleo PAG 100 (unidade)', p:70},
-    {d:'Gás refrigerante R-134a (kg)', p:180},
-    {d:'Gás refrigerante R-1234yf (kg)', p:280},
+    {d:'Compressor do ar condicionado', s:'Compressor', p:950},
+    {d:'Selo do compressor', s:'Selo compressor', p:220},
+    {d:'Condensador', s:'Condensador', p:420},
+    {d:'Evaporadora (radiador do ar)', s:'Evaporadora', p:600},
+    {d:'Filtro secador / acumulador', s:'Filtro secador', p:120},
+    {d:'Válvula de expansão', s:'Válvula expansão', p:180},
+    {d:'Válvula de serviço', s:'Válvula serviço', p:60},
+    {d:'Anéis o\u2019ring (jogo)', s:'Anéis o\u2019ring', p:40},
+    {d:'Mangueira de alta pressão', s:'Mangueira alta', p:150},
+    {d:'Mangueira de baixa pressão', s:'Mangueira baixa', p:150},
+    {d:'Motor do ventilador (hélice)', s:'Motor ventilador', p:280},
+    {d:'Polia do compressor', s:'Polia compressor', p:150},
+    {d:'Embreagem do compressor', s:'Embreagem compressor', p:320},
+    {d:'Correia do compressor', s:'Correia compressor', p:60},
+    {d:'Filtro de ar condicionado (cabine)', s:'Filtro cabine', p:60},
+    {d:'Sensor de pressão do sistema', s:'Sensor pressão', p:90},
+    {d:'Óleo PAG 46 (unidade)', s:'Óleo PAG 46', p:70},
+    {d:'Óleo PAG 100 (unidade)', s:'Óleo PAG 100', p:70},
+    {d:'Gás refrigerante R-134a (kg)', s:'Gás R-134a', p:180},
+    {d:'Gás refrigerante R-1234yf (kg)', s:'Gás R-1234yf', p:280},
   ];
 
   var els = {};
@@ -767,10 +777,22 @@
       var c = document.createElement('button');
       c.type = 'button';
       c.className = 'chip';
-      c.textContent = it.d;
+      c.textContent = it.s || it.d;
+      c.title = it.d;
       c.addEventListener('click', function(){
         var savedPrice = loadCustomPrices()[it.d];
         addFn(it.d, 1, (savedPrice != null) ? savedPrice : it.p);
+
+        // feedback tátil (celular) e visual ao selecionar
+        if(navigator.vibrate){ navigator.vibrate(15); }
+        c.classList.remove('picked');
+        // força reflow para permitir reiniciar a animação em cliques seguidos
+        void c.offsetWidth;
+        c.classList.add('picked');
+        c.addEventListener('animationend', function handler(){
+          c.classList.remove('picked');
+          c.removeEventListener('animationend', handler);
+        });
       });
       container.appendChild(c);
     });
