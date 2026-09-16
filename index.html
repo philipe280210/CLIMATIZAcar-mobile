@@ -606,6 +606,8 @@
     {d:'Troca de filtro secador', s:'Filtro secador', p:120},
     {d:'Troca de compressor', s:'Compressor', p:950},
     {d:'Troca de selo do compressor', s:'Selo compressor', p:220},
+    {d:'Troca de rolamento do compressor', s:'Rolamento compressor', p:280},
+    {d:'Troca de polia do compressor', s:'Polia compressor', p:180},
     {d:'Troca de válvula de expansão', s:'Válvula expansão', p:180},
     {d:'Serviço de troca de válvula', s:'Troca de válvula', p:100},
     {d:'Troca de óleo PAG 46', s:'Óleo PAG 46', p:70},
@@ -634,6 +636,7 @@
     {d:'Mangueira de baixa pressão', s:'Mangueira baixa', p:150},
     {d:'Motor do ventilador (hélice)', s:'Motor ventilador', p:280},
     {d:'Polia do compressor', s:'Polia compressor', p:150},
+    {d:'Rolamento do compressor', s:'Rolamento compressor', p:120},
     {d:'Embreagem do compressor', s:'Embreagem compressor', p:320},
     {d:'Correia do compressor', s:'Correia compressor', p:60},
     {d:'Filtro de ar condicionado (cabine)', s:'Filtro cabine', p:60},
@@ -1348,9 +1351,11 @@
     '.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;font-size:13.5px;}' +
     '.grid .full{grid-column:1/-1;}' +
     '.grid b{color:var(--ink-soft);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:2px;}' +
-    'table{width:100%;border-collapse:collapse;font-size:13px;}' +
+    'table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}' +
+    'col.w-desc{width:49%;} col.w-qtd{width:11%;} col.w-unit{width:20%;} col.w-tot{width:20%;}' +
     'thead th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);border-bottom:1.5px solid var(--line);padding:6px 4px;}' +
-    'td{padding:8px 4px;border-bottom:1px dashed var(--line);}' +
+    'th.c{text-align:center;} th.r{text-align:right;}' +
+    'td{padding:8px 4px;border-bottom:1px dashed var(--line);word-wrap:break-word;}' +
     'td.c{text-align:center;} td.r{text-align:right;font-family:"DejaVu Sans Mono",Consolas,monospace;}' +
     'td.empty{text-align:center;color:var(--ink-soft);padding:14px;}' +
     '.totais{margin-top:10px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:13.5px;}' +
@@ -1397,12 +1402,14 @@
         '</div>' +
         '<div class="section">' +
           '<h2>Serviços</h2>' +
-          '<table><thead><tr><th>Descrição</th><th class="c">Qtd</th><th class="r">Unit.</th><th class="r">Total</th></tr></thead>' +
+          '<table><colgroup><col class="w-desc"><col class="w-qtd"><col class="w-unit"><col class="w-tot"></colgroup>' +
+          '<thead><tr><th>Descrição</th><th class="c">Qtd</th><th class="r">Unit.</th><th class="r">Total</th></tr></thead>' +
           '<tbody>' + buildOSRowsHTML(data.items) + '</tbody></table>' +
         '</div>' +
         '<div class="section">' +
           '<h2>Peças</h2>' +
-          '<table><thead><tr><th>Descrição</th><th class="c">Qtd</th><th class="r">Unit.</th><th class="r">Total</th></tr></thead>' +
+          '<table><colgroup><col class="w-desc"><col class="w-qtd"><col class="w-unit"><col class="w-tot"></colgroup>' +
+          '<thead><tr><th>Descrição</th><th class="c">Qtd</th><th class="r">Unit.</th><th class="r">Total</th></tr></thead>' +
           '<tbody>' + buildOSRowsHTML(data.pecas) + '</tbody></table>' +
           '<div class="totais">' +
             '<div class="lin"><span>Subtotal serviços</span><span>' + fmt(subServicos) + '</span></div>' +
